@@ -9,18 +9,24 @@ parser.add_argument("task", type=str, nargs="*")
 
 args = parser.parse_args()
 
-print(args.command)
-print(args.task)
+desc = args.task
+com = args.command
 
-if args.command == "add":
-    functions.add()
-elif args.command == "update":
-    functions.update_task()
-elif args.command == "delete":
-    functions.delete()
-elif args.command == "mark-in-progress":
-    functions.update_status()
-elif args.command == "mark-done":
-    functions.update_status()
-elif args.command == "list":
-    functions.list()
+if com == "add":
+    functions.add(desc[0])
+elif com == "update":
+    id = int(desc[0])
+    functions.update_task(id, desc[1])
+elif com == "delete":
+    id = int(desc[0])
+    functions.delete(id)
+elif com == "mark-in-progress" or com == "mark-done":
+    status = com.lstrip("mark-")
+    id = int(desc[0])
+    functions.update_status(status, id)
+elif com == "list":
+    if desc:
+        status = desc[0]
+        functions.list_tasks(status)
+    else:
+        functions.list_tasks()
