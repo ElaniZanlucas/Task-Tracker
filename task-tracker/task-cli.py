@@ -1,10 +1,12 @@
+"""
+CLI controller
+"""
+
 import functions
 import argparse
 
 parser = argparse.ArgumentParser(description="My Task Tracker task-cli")
-# Commands
 parser.add_argument("command", choices=["add", "update", "delete", "mark-in-progress", "mark-done", "list"])
-# Dinamic args
 parser.add_argument("task", type=str, nargs="*")
 
 args = parser.parse_args()
