@@ -1,11 +1,3 @@
-"""
-Task Properties:
-    - id: A unique identifier for the task
-    - description: A short description of the task
-    - status: The status of the task (todo, in-progress, done)
-    - createdAt: The date and time when the task was created
-    - updatedAt: The date and time when the task was last updated
-"""
 import json_functions as jf
 from datetime import datetime
 from tabulate import tabulate
@@ -103,12 +95,16 @@ def list_tasks(filter=False):
     :return: a list with all the task or an error if the task doesn't exist
     """
     data = jf.get_json()
+    status = ['todo', 'in-progress', 'done']
     if filter:
-        filtered_data = [task for task in data if task["status"] == filter]
-        print(tabulate(filtered_data, headers="keys", tablefmt="fancy_grid"))
+        if filter not in status:
+            print(Fore.RED + f"Status {filter} doesn't exist! Choose one of these statuses: {status}" + Style.RESET_ALL)
+        else:
+            filtered_data = [task for task in data if task["status"] == filter]
+            print(tabulate(filtered_data, headers="keys", tablefmt="fancy_grid"))
 
-        if len(filtered_data) == 0:
-            print(Fore.RED + f"No tasks with status {filter} found." + Style.RESET_ALL)
+            if len(filtered_data) == 0:
+                print(Fore.RED + f"No tasks with status {filter} found." + Style.RESET_ALL)
     else:
         print(tabulate(data, headers="keys", tablefmt="fancy_grid"))
 
